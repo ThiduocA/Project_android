@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navHome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:icon="@drawable/home_nav"
+        android:title="@string/home" />
+    <item
+        android:id="@+id/navTransaction"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:icon="@drawable/transaction_nav"
+        android:title="Transaction" />
+    <item
+        android:id="@+id/navAdd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:icon="@drawable/plus_nav"
+
+        android:title="Add" />
+    <item
+        android:id="@+id/navBudget"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:icon="@drawable/budget_nav"
+
+        android:title="Budget" />
+    <item
+        android:id="@+id/navProfile"
+        android:layout_width="wrap_content"
+        android:icon="@drawable/user_nav"
+        android:layout_height="wrap_content"
+        android:title="Profile" />
+</menu>
