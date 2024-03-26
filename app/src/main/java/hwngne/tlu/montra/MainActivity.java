@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -33,6 +34,25 @@ public class MainActivity extends AppCompatActivity {
                     startActivity(intent);
                     finish();
                 }
+            }
+        });
+        TextView signup = findViewById(R.id.signupid);
+        signup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, signup.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+
+        TextView forgot = findViewById(R.id.forgotPassword);
+        forgot.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, forgot.class);
+                startActivity(intent);
+                finish();
             }
         });
 
