@@ -16,13 +16,13 @@ public class HomeActivity extends AppCompatActivity {
 
     private BottomNavigationView bottomNavigationView;
     private FrameLayout frameLayout;
-
+    private int userId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-
+        userId = getIntent().getIntExtra("userId", -1);
         bottomNavigationView = findViewById(R.id.bottomNavView);
         frameLayout = findViewById(R.id.framelayout);
 
@@ -58,6 +58,9 @@ public class HomeActivity extends AppCompatActivity {
     private void loadFragment(Fragment fragment, boolean isAppInitialized){
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        Bundle bundle = new Bundle();
+        bundle.putInt("userId", userId);
+        fragment.setArguments(bundle);
         if(isAppInitialized){
             fragmentTransaction.add(R.id.framelayout, fragment);
         }else{

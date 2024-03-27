@@ -12,15 +12,32 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import hwngne.tlu.montra.DAO.DatabaseHelper;
+
 
 public class ProfileFragment extends Fragment {
+    public String searchName(int id) {
+
+        DatabaseHelper dbHelper = new DatabaseHelper(getActivity());
+
+        String name = dbHelper.searchName(id);
+
+        return name;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            int userId = bundle.getInt("userId", -1);
 
+            String userName = searchName(userId);
+            TextView userNameTextView = view.findViewById(R.id.user_name);
+            userNameTextView.setText(userName);
+        }
         TextView logoutTextView = view.findViewById(R.id.logout);
         logoutTextView.setOnClickListener(new View.OnClickListener() {
             @Override

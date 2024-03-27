@@ -1,5 +1,6 @@
 package hwngne.tlu.montra.DAO;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -113,6 +114,52 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.close();
         return password;
     }
+    public int searchId(String tk,String pass){
+        db = this.getReadableDatabase();
+        int userId = -1; 
+
+        String query = "SELECT id FROM user WHERE email = ? AND password = ?";
+
+        String email = tk;
+        String password = pass;
+        Cursor cursor = db.rawQuery(query, new String[]{email, password});
+
+        if (cursor.moveToFirst()) {
+            int idIndex = cursor.getColumnIndex("id");
+
+            userId = cursor.getInt(idIndex);
+        }
+
+        cursor.close();
+        db.close();
+
+        return userId;
+    }
+    @SuppressLint("Range")
+    public String searchName(int id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String name = null;
+
+        // Tạo câu truy vấn để lấy tên dựa trên id
+        String query = "SELECT name FROM user WHERE id = ?";
+
+        // Thực thi câu truy vấn với tham số là id
+        Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(id)});
+
+        // Kiểm tra xem có dữ liệu nào được trả về không
+        if (cursor.moveToFirst()) {
+            // Lấy tên từ cột name
+            name = cursor.getString(cursor.getColumnIndex("name"));
+        }
+
+        // Đóng cursor và database
+        cursor.close();
+        db.close();
+
+        // Trả về tên nếu tìm thấy, null nếu không tìm thấy
+        return name;
+    }
+
     public int showCashIncome(){
         int totalCash = 0;
         db = this.getReadableDatabase();

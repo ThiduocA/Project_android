@@ -37,9 +37,12 @@ public class MainActivity extends AppCompatActivity {
                 String email = editTextEmail.getText().toString();
                 String password = editTextPassword.getText().toString();
 
+                int userId = dbHelper.searchId(email, password);
                 if(password.equals(dbHelper.searchPass(email))){
+
                     Toast.makeText(getApplicationContext(), "Login successful", Toast.LENGTH_LONG).show();
                     Intent intent = new Intent(MainActivity.this, HomeActivity.class);
+                    intent.putExtra("userId", userId);
                     startActivity(intent);
                     finish();
                 }
