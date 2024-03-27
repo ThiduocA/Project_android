@@ -14,19 +14,17 @@
         android:icon="@drawable/transaction_nav"
         android:title="Transaction" />
     <item
-        android:id="@+id/navAdd"
+        android:id="@+id/navIncome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:icon="@drawable/plus_nav"
-
-        android:title="Add" />
+        android:title="Income" />
     <item
-        android:id="@+id/navBudget"
+        android:id="@+id/navExpense"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:icon="@drawable/budget_nav"
-
-        android:title="Budget" />
+        android:icon="@drawable/plus_nav"
+        android:title="Expense" />
     <item
         android:id="@+id/navProfile"
         android:layout_width="wrap_content"

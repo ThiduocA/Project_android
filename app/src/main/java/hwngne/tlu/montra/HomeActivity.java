@@ -9,15 +9,8 @@ import androidx.fragment.app.FragmentTransaction;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
-import android.widget.ListView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-
-import org.eazegraph.lib.charts.ValueLineChart;
-import org.eazegraph.lib.models.ValueLinePoint;
-import org.eazegraph.lib.models.ValueLineSeries;
-
-import java.util.ArrayList;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -44,11 +37,11 @@ public class HomeActivity extends AppCompatActivity {
                 }else if(itemId == R.id.navTransaction){
                     loadFragment(new TransactionFragment(), false);
 
-                }else if(itemId == R.id.navAdd){
+                }else if(itemId == R.id.navIncome){
+                    loadFragment(new IncomeFragment(), false);
 
-
-                }else if(itemId == R.id.navBudget){
-                    loadFragment(new BudgetFragment(), false);
+                }else if(itemId == R.id.navExpense){
+                    loadFragment(new ExpenseFragment(), false);
 
                 }else if(itemId == R.id.navProfile){
                     loadFragment(new ProfileFragment(), false);

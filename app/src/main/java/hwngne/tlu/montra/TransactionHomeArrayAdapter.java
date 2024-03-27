@@ -46,6 +46,7 @@ public class TransactionHomeArrayAdapter extends ArrayAdapter<Transaction_lv> {
         costTextView.setText(transaction.getCost());
         timeTextView.setText(transaction.getTime());
 
+
         return convertView;
     }
 }

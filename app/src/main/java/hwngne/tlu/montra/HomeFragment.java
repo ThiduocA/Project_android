@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import com.github.mikephil.charting.charts.PieChart;
@@ -19,10 +20,13 @@ import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 
+import hwngne.tlu.montra.DAO.DatabaseHelper;
+
 public class HomeFragment extends Fragment {
 
     private PieChart pieChart;
     ArrayList<Transaction_lv> mylist;
+    DatabaseHelper dbHelper;
     public HomeFragment() {
         // Required empty public constructor
     }
@@ -36,6 +40,7 @@ public class HomeFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        //cash_income.setText(dbHelper.showCashIncome(cash_income));
         pieChart = view.findViewById(R.id.pie_chart);
         ArrayList<PieEntry> entries = new ArrayList<>();
         entries.add(new PieEntry(30f, ""));
@@ -63,6 +68,15 @@ public class HomeFragment extends Fragment {
 
         TransactionHomeArrayAdapter adapter = new TransactionHomeArrayAdapter(requireActivity(), mylist);
         listView.setAdapter(adapter);
+
+        TextView cash_income = view.findViewById(R.id.cash_income);
+        dbHelper = new DatabaseHelper(HomeFragment.this);
+//        if(dbHelper.showCashIncome() == null){
+//            cash_income.setText("123");
+//        }else{
+//            cash_income.setText(dbHelper.showCashIncome());
+//        }
+        cash_income.setText(String.valueOf(dbHelper.showCashIncome()));
     }
 
 
