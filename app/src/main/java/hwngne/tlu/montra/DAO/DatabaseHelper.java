@@ -30,14 +30,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             + "id INTEGER PRIMARY KEY AUTOINCREMENT, "
             + "name TEXT, "
             + "email TEXT, "
-            + "password text)";
+            + "password text, "
+            + "balance INT)";
 
     private static final String createTableIncome = "CREATE TABLE IF NOT EXISTS income("
             + "id INTEGER PRIMARY KEY AUTOINCREMENT, "
             + "category TEXT, "
             + "description TEXT, "
             + "cash INT, "
-            + "time TIMESTAMP)";
+            + "time TIMESTAMP DEFAULT CURRENT_TIMESTAMP, "
+            + "id_user INT, "
+            + "FOREIGN KEY (id_user) REFERENCES user(" + "id))";
 
 
 
@@ -46,14 +49,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             + "category TEXT, "
             + "description TEXT, "
             + "cash INT, "
-            + "time TIMESTAMP)";
-
-
-    private static final String createTableGroup = "CREATE TABLE IF NOT EXISTS groupAll("
-            + "id INTEGER PRIMARY KEY AUTOINCREMENT, "
+            + "time TIMESTAMP DEFAULT CURRENT_TIMESTAMP, "
             + "id_user INT, "
-            + "balance INT, "
-            + "FOREIGN KEY (" + "id_user) REFERENCES user(" + "id))";
+            + "FOREIGN KEY (id_user) REFERENCES user(" + "id))";
+
 
     public DatabaseHelper(@Nullable Fragment homeFragment) {
         super(Objects.requireNonNull(homeFragment).requireContext(), DATABASE_NAME, null, DATABSE_VERSION);
@@ -70,19 +69,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         db.execSQL(createTableExpenses);
 
-        db.execSQL(createTableGroup);
         this.db = db;
-        db.execSQL("INSERT INTO user (name, email, password) VALUES ('Xuan Hung', 'admin@gmail.com', '1')");
-        db.execSQL("INSERT INTO income (category, description, cash) VALUES('Shop', 'Buy some grocery', 1000)");
-        db.execSQL("INSERT INTO income (category, description, cash) VALUES('Shop', 'Buy some grocery 2', 50)");
-        db.execSQL("INSERT INTO income (category, description, cash) VALUES('Shop', 'Buy some grocery 3', 100)");
-        db.execSQL("INSERT INTO expense (category, description, cash) VALUES('Salary', 'Salary for July', 500)");
-        db.execSQL("INSERT INTO groupAll (id_user, balance) " +
-                "VALUES (1, " +
-                "((SELECT SUM(cash) AS cash_income FROM income) - " +
-                "(SELECT SUM(cash) AS cash_expense FROM expense)))");
-
-
+        db.execSQL("INSERT INTO user (name, email, password, balance) VALUES ('Xuan Hung', 'admin@gmail.com', '1', 0)");
+        db.execSQL("INSERT INTO income (category, description, cash, id_user) VALUES('Shop', 'Buy some grocery', 1000, 1)");
+        db.execSQL("INSERT INTO income (category, description, cash, id_user) VALUES('Shop', 'Buy some grocery 2', 50, 1)");
+        db.execSQL("INSERT INTO income (category, description, cash, id_user) VALUES('Shop', 'Buy some grocery 3', 100, 1)");
+        db.execSQL("INSERT INTO expense (category, description, cash, id_user) VALUES('Salary', 'Salary for July', 500, 1)");
     }
 
     @Override
@@ -90,7 +82,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS user");
         db.execSQL("DROP TABLE IF EXISTS income");
         db.execSQL("DROP TABLE IF EXISTS expense");
-        db.execSQL("DROP TABLE IF EXISTS groupAll");
 
         onCreate(db);
         this.onCreate(db);
@@ -160,15 +151,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return name;
     }
 
-    public int showCashIncome(){
+    public int showCashIncome(int id){
         int totalCash = 0;
         db = this.getReadableDatabase();
         System.out.println("chay duoc");
-        String query = "SELECT SUM(cash) AS cash_income FROM income";
+        String query = "SELECT SUM(cash) AS cash_income FROM income where id_user = '"+id+"'";
         Cursor cursor = db.rawQuery(query, null);
         int index = cursor.getColumnIndex("cash_income");
         if(cursor.moveToFirst()){
             totalCash = cursor.getInt(index);
+            System.out.println("Tong tien income: " + totalCash);
         }
         else{
             System.out.println("Loi");

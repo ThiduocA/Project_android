@@ -1,5 +1,7 @@
 package hwngne.tlu.montra;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 
@@ -7,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +18,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Objects;
+
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
@@ -27,6 +32,7 @@ public class HomeFragment extends Fragment {
     private PieChart pieChart;
     ArrayList<Transaction_lv> mylist;
     DatabaseHelper dbHelper;
+    int userId;
     public HomeFragment() {
         // Required empty public constructor
     }
@@ -41,6 +47,10 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         //cash_income.setText(dbHelper.showCashIncome(cash_income));
+//        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(requireContext());
+//        sharedPreferences.getInt("userId", -1);
+        userId = requireActivity().getIntent().getIntExtra("userId", -1);
+        System.out.println("userId trong fragment: " + userId);
         pieChart = view.findViewById(R.id.pie_chart);
         ArrayList<PieEntry> entries = new ArrayList<>();
         entries.add(new PieEntry(30f, ""));
@@ -76,7 +86,7 @@ public class HomeFragment extends Fragment {
 //        }else{
 //            cash_income.setText(dbHelper.showCashIncome());
 //        }
-        cash_income.setText(String.valueOf(dbHelper.showCashIncome()));
+        cash_income.setText(String.valueOf(dbHelper.showCashIncome(userId)));
     }
 
 
