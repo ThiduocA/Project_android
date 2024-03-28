@@ -10,9 +10,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 import hwngne.tlu.montra.HomeFragment;
+import hwngne.tlu.montra.Transaction_lv;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "montra.db";
@@ -70,7 +72,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(createTableExpenses);
 
         this.db = db;
-        db.execSQL("INSERT INTO user (name, email, password, balance) VALUES ('Xuan Hung', 'admin@gmail.com', '1', 0)");
+        db.execSQL("INSERT INTO user (name, email, password, balance) VALUES ('Xuan Hung', 'admin@gmail.com', '1', 650)");
         db.execSQL("INSERT INTO income (category, description, cash, id_user) VALUES('Shop', 'Buy some grocery', 1000, 1)");
         db.execSQL("INSERT INTO income (category, description, cash, id_user) VALUES('Shop', 'Buy some grocery 2', 50, 1)");
         db.execSQL("INSERT INTO income (category, description, cash, id_user) VALUES('Shop', 'Buy some grocery 3', 100, 1)");
@@ -169,4 +171,42 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.close();
         return totalCash;
     }
+    public int showCashExpense(int id){
+        int totalCash = 0;
+        db = this.getReadableDatabase();
+        System.out.println("chay duoc");
+        String query = "SELECT SUM(cash) AS cash_expense FROM expense where id_user = '"+id+"'";
+        Cursor cursor = db.rawQuery(query, null);
+        int index = cursor.getColumnIndex("cash_expense");
+        if(cursor.moveToFirst()){
+            totalCash = cursor.getInt(index);
+            System.out.println("Tong tien expense: " + totalCash);
+        }
+        else{
+            System.out.println("Loi");
+        }
+        cursor.close();
+        db.close();
+        return totalCash;
+    }
+    public int showBalance(int id){
+        int totalCash = 0;
+        db = this.getReadableDatabase();
+        System.out.println("chay duoc");
+        String query = "SELECT balance FROM user where id = '"+id+"'";
+        Cursor cursor = db.rawQuery(query, null);
+        int index = cursor.getColumnIndex("balance");
+        if(cursor.moveToFirst()){
+            totalCash = cursor.getInt(index);
+            System.out.println("Tong tien balance: " + totalCash);
+        }
+        else{
+            System.out.println("Loi");
+        }
+        cursor.close();
+        db.close();
+        return totalCash;
+    }
+
+
 }

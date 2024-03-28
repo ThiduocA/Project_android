@@ -4,14 +4,21 @@ public class Transaction_lv {
     private int image;
     private String title;
     private String description;
-    private String cost;
+    private int cost;
     private String time;
 
     public Transaction_lv() {
     }
 
-    public Transaction_lv(int image, String title, String description, String cost, String time) {
+    public Transaction_lv(int image, String title, String description, int cost, String time) {
         this.image = image;
+        this.title = title;
+        this.description = description;
+        this.cost = cost;
+        this.time = time;
+    }
+
+    public Transaction_lv(String title, String description, int cost, String time) {
         this.title = title;
         this.description = description;
         this.cost = cost;
@@ -42,11 +49,11 @@ public class Transaction_lv {
         this.description = description;
     }
 
-    public String getCost() {
+    public int getCost() {
         return cost;
     }
 
-    public void setCost(String cost) {
+    public void setCost(int cost) {
         this.cost = cost;
     }
 
