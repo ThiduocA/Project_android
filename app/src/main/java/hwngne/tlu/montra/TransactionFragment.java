@@ -1,16 +1,20 @@
 package hwngne.tlu.montra;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -43,6 +47,14 @@ public class TransactionFragment extends Fragment {
         TransactionHomeArrayAdapter adapter = new TransactionHomeArrayAdapter(requireActivity(), R.layout.layout_transaction_home, mylist);
         listView.setAdapter(adapter);
         actionGetData();
+
+        TextView btn_see = view.findViewById(R.id.btn_see);
+        btn_see.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loadFragment(new FinancialFragment(), false);
+            }
+        });
     }
 
     public void actionGetData(){
@@ -62,5 +74,15 @@ public class TransactionFragment extends Fragment {
             mylist.add(new Transaction_lv(category, description, cash, time));
         }
 
+    }
+    private void loadFragment(Fragment fragment, boolean isAppInitialized){
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        if(isAppInitialized){
+            fragmentTransaction.add(R.id.framelayout, fragment);
+        }else{
+            fragmentTransaction.replace(R.id.framelayout, fragment);
+        }
+        fragmentTransaction.commit();
     }
 }

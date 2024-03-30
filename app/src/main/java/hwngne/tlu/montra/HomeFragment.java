@@ -55,20 +55,23 @@ public class HomeFragment extends Fragment {
 //        sharedPreferences.getInt("userId", -1);
         userId = requireActivity().getIntent().getIntExtra("userId", -1);
         System.out.println("userId trong fragment: " + userId);
-        pieChart = view.findViewById(R.id.pie_chart);
-        ArrayList<PieEntry> entries = new ArrayList<>();
-        entries.add(new PieEntry(30f, ""));
-        entries.add(new PieEntry(20f, ""));
-        entries.add(new PieEntry(50f, ""));
 
-        PieDataSet dataSet = new PieDataSet(entries, "Sample Chart");
-        dataSet.setColors(Color.RED, Color.GREEN, Color.BLUE);
-
-        PieData data = new PieData(dataSet);
-
-        pieChart.setData(data);
-        pieChart.invalidate();
-        int img = R.drawable.cart;
+//        int money_income = 0, money_expense = 0;
+//        money_income = dbHelper.showCashIncome(userId);
+//        money_expense = dbHelper.showCashExpense(userId);
+//        pieChart = view.findViewById(R.id.pie_chart);
+//        ArrayList<PieEntry> entries = new ArrayList<>();
+//        entries.add(new PieEntry(30f, ""));
+//        entries.add(new PieEntry(20f, ""));
+//        entries.add(new PieEntry(50f, ""));
+//
+//        PieDataSet dataSet = new PieDataSet(entries, "Sample Chart");
+//        dataSet.setColors(Color.RED, Color.GREEN, Color.BLUE);
+//
+//        PieData data = new PieData(dataSet);
+//
+//        pieChart.setData(data);
+//        pieChart.invalidate();
 
         connect = new Connect(requireContext(), "montra.db", null, 1);
         ListView listView = view.findViewById(R.id.lv);
@@ -79,6 +82,7 @@ public class HomeFragment extends Fragment {
         TextView cash_income = view.findViewById(R.id.cash_income);
         dbHelper = new DatabaseHelper(HomeFragment.this);
         cash_income.setText(String.valueOf(dbHelper.showCashIncome(userId)));
+        System.out.println("Tong tien: " + dbHelper.showCashIncome(userId));
         TextView cash_expense = view.findViewById(R.id.cash_expense);
         dbHelper = new DatabaseHelper(HomeFragment.this);
         cash_expense.setText(String.valueOf(dbHelper.showCashExpense(userId)));
