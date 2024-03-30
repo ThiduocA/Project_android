@@ -2,6 +2,7 @@ package hwngne.tlu.montra;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Bundle;
 
@@ -25,6 +26,7 @@ import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 
+import hwngne.tlu.montra.DAO.Connect;
 import hwngne.tlu.montra.DAO.DatabaseHelper;
 
 public class HomeFragment extends Fragment {
@@ -32,6 +34,8 @@ public class HomeFragment extends Fragment {
     private PieChart pieChart;
     ArrayList<Transaction_lv> mylist;
     DatabaseHelper dbHelper;
+    Connect connect;
+    TransactionHomeArrayAdapter adapter;
     int userId;
     public HomeFragment() {
         // Required empty public constructor
@@ -65,29 +69,42 @@ public class HomeFragment extends Fragment {
         pieChart.setData(data);
         pieChart.invalidate();
         int img = R.drawable.cart;
-        String title = "Shopping";
-        String  description = "Buy some grocery";
-        String cost = "- $120";
-        String time = "12:00 AM";
 
+        connect = new Connect(requireContext(), "montra.db", null, 1);
         ListView listView = view.findViewById(R.id.lv);
         mylist = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
-            mylist.add(new Transaction_lv(img, title, description, cost, time));
-        }
-
-        TransactionHomeArrayAdapter adapter = new TransactionHomeArrayAdapter(requireActivity(), mylist);
+        TransactionHomeArrayAdapter adapter = new TransactionHomeArrayAdapter(requireActivity(), R.layout.layout_transaction_home, mylist);
         listView.setAdapter(adapter);
 
         TextView cash_income = view.findViewById(R.id.cash_income);
         dbHelper = new DatabaseHelper(HomeFragment.this);
-//        if(dbHelper.showCashIncome() == null){
-//            cash_income.setText("123");
-//        }else{
-//            cash_income.setText(dbHelper.showCashIncome());
-//        }
         cash_income.setText(String.valueOf(dbHelper.showCashIncome(userId)));
+        TextView cash_expense = view.findViewById(R.id.cash_expense);
+        dbHelper = new DatabaseHelper(HomeFragment.this);
+        cash_expense.setText(String.valueOf(dbHelper.showCashExpense(userId)));
+        TextView balance = view.findViewById(R.id.balance);
+        balance.setText(String.valueOf(dbHelper.showBalance(userId)));
+        //adapter = new TransactionHomeArrayAdapter(requireContext(), mylist);
+        actionGetData();
     }
 
+    public void actionGetData(){
+        Cursor data = connect.getData("SELECT category, description, cash, time " +
+                "FROM (" +
+                "    SELECT category, description, cash, time FROM income " +
+                "    UNION ALL " +
+                "    SELECT category, description, cash, time FROM expense " +
+                ") AS combined " +
+                "ORDER BY time DESC;"
+);
+        mylist.clear();
+        while (data.moveToNext()){
+            String category = data.getString(0);
+            String description = data.getString(1);
+            int cash = data.getInt(2);
+            String time = data.getString(3);
+            mylist.add(new Transaction_lv(category, description, cash, time));
+        }
 
+    }
 }
