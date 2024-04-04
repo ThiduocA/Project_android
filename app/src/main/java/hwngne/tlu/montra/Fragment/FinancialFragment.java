@@ -1,7 +1,6 @@
-package hwngne.tlu.montra;
+package hwngne.tlu.montra.Fragment;
 
 import android.database.Cursor;
-import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -16,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.PieData;
@@ -27,13 +27,16 @@ import java.util.ArrayList;
 
 import hwngne.tlu.montra.DAO.Connect;
 import hwngne.tlu.montra.DAO.DatabaseHelper;
+import hwngne.tlu.montra.R;
+import hwngne.tlu.montra.TransactionHomeArrayAdapter;
+import hwngne.tlu.montra.Transaction_lv;
 
 
 public class FinancialFragment extends Fragment {
 
     private PieChart pieChart;
     ArrayList<Transaction_lv> mylist;
-    ArrayList<Integer> listCash;
+    ArrayList<Object> listCash;
     Connect connect;
     DatabaseHelper dbHelper;
     int userId;
@@ -73,17 +76,15 @@ public class FinancialFragment extends Fragment {
                 dbHelper = new DatabaseHelper(FinancialFragment.this);
                 total.setText(String.valueOf(dbHelper.showCashExpense(userId)));
                 pieChart = view.findViewById(R.id.pie_chart);
-                listCash = getEachCashExpense();
+                listCash = getEachCashExpense(userId);
                 ArrayList<PieEntry> entries = new ArrayList<>();
-                for(int i = 0; i < listCash.size(); i++){
-                    float temp = (float) listCash.get(i);
-                    System.out.println("ptu: " + listCash.get(i));
-                    entries.add(new PieEntry(temp, ""));
+                for(int i = 0; i < listCash.size(); i+=2){
+                    String category = (String) listCash.get(i);
+                    float temp = (float) listCash.get(i + 1);
+                    System.out.println("category expense: " + listCash.get(i));
+                    System.out.println("cash expense: " + listCash.get(i + 1));
+                    entries.add(new PieEntry(temp, "'"+category+"'"));
                 }
-
-//                entries.add(new PieEntry(1150f, ""));
-//                entries.add(new PieEntry(500f, ""));
-//                entries.add(new PieEntry(50f, ""));
 
                 PieDataSet dataSet = new PieDataSet(entries, "");
                 dataSet.setColors(ColorTemplate.MATERIAL_COLORS);
@@ -98,7 +99,12 @@ public class FinancialFragment extends Fragment {
                 mylist = new ArrayList<>();
                 TransactionHomeArrayAdapter adapter = new TransactionHomeArrayAdapter(requireActivity(), R.layout.layout_transaction_home, mylist);
                 listView.setAdapter(adapter);
-                getExpense();
+                try{
+                    getExpense(userId);
+                }catch (Exception e){
+                    System.out.println("Lỗi trang financial fragment: " + e.getMessage());
+                    Toast.makeText(requireContext(), "Lỗi không lấy được dữ liệu!", Toast.LENGTH_LONG).show();
+                }
             }
         });
         textView_income.setOnClickListener(new View.OnClickListener() {
@@ -107,14 +113,16 @@ public class FinancialFragment extends Fragment {
                 connect = new Connect(requireContext(), "montra.db", null, 1);
                 TextView total = view.findViewById(R.id.total);
                 dbHelper = new DatabaseHelper(FinancialFragment.this);
-                total.setText(String.valueOf(dbHelper.showCashIncome(userId)));
+                total.setText("$" + String.valueOf(dbHelper.showCashIncome(userId)));
                 pieChart = view.findViewById(R.id.pie_chart);
-                listCash = getEachCashIncome();
+                listCash = getEachCashIncome(userId);
                 ArrayList<PieEntry> entries = new ArrayList<>();
-                for(int i = 0; i < listCash.size(); i++){
-                    float temp = (float) listCash.get(i);
-                    System.out.println("ptu income: " + listCash.get(i));
-                    entries.add(new PieEntry(temp, ""));
+                for(int i = 0; i < listCash.size(); i+=2){
+                    String category = (String) listCash.get(i);
+                    float temp = (float) listCash.get(i + 1);
+                    System.out.println("category income: " + listCash.get(i));
+                    System.out.println("cash income: " + listCash.get(i + 1));
+                    entries.add(new PieEntry(temp, "'"+category+"'"));
                 }
 //                entries.add(new PieEntry(1150f, ""));
 //                entries.add(new PieEntry(500f, ""));
@@ -132,13 +140,18 @@ public class FinancialFragment extends Fragment {
                 mylist = new ArrayList<>();
                 TransactionHomeArrayAdapter adapter = new TransactionHomeArrayAdapter(requireActivity(), R.layout.layout_transaction_home, mylist);
                 listView.setAdapter(adapter);
-                getIncome();
+                try{
+                    getIncome(userId);
+                }catch (Exception e){
+                    System.out.println("Lỗi trang financial fragment: " + e.getMessage());
+                    Toast.makeText(requireContext(), "Lỗi không lấy được dữ liệu!", Toast.LENGTH_LONG).show();
+                }
             }
         });
     }
 
-    public void getExpense(){
-        Cursor data = connect.getData("Select category, description, cash, time from expense");
+    public void getExpense(int id){
+        Cursor data = connect.getData("Select category, description, cash, time from expense where id_user = '"+id+"'");
         mylist.clear();
         while (data.moveToNext()){
             String category = data.getString(0);
@@ -147,9 +160,12 @@ public class FinancialFragment extends Fragment {
             String time = data.getString(3);
             mylist.add(new Transaction_lv(category, description, cash, time));
         }
+        if(mylist.isEmpty()){
+            Toast.makeText(requireContext(), "Bạn phải thêm dữ liệu!", Toast.LENGTH_LONG).show();
+        }
     }
-    public void getIncome(){
-        Cursor data = connect.getData("Select category, description, cash, time from income");
+    public void getIncome(int id){
+        Cursor data = connect.getData("Select category, description, cash, time from income where id_user = '"+id+"'");
         mylist.clear();
         while (data.moveToNext()){
             String category = data.getString(0);
@@ -158,23 +174,32 @@ public class FinancialFragment extends Fragment {
             String time = data.getString(3);
             mylist.add(new Transaction_lv(category, description, cash, time));
         }
+        if(mylist.isEmpty()){
+            Toast.makeText(requireContext(), "Bạn phải thêm dữ liệu!", Toast.LENGTH_LONG).show();
+        }
     }
-    public ArrayList<Integer> getEachCashExpense(){
-        Cursor data = connect.getData("Select cash from expense");
-        ArrayList<Integer> arrayList = new ArrayList<>();
+    public ArrayList<Object> getEachCashExpense(int id){
+        Cursor data = connect.getData("Select category, cash from expense where id_user = '"+id+"' group by category");
+        ArrayList<Object> arrayList = new ArrayList<>();
         while (data.moveToNext()){
-            int cash = data.getInt(0);
-            arrayList.add(cash);
-            System.out.println("cash: " + cash);
+            String category = data.getString(0);
+            int cash = data.getInt(1);
+            arrayList.add(category);
+            arrayList.add((float)cash);
+            System.out.println("category expense @@@@@: " + category);
+            System.out.println("cash expense @@@@@: " + cash);
         }
         return arrayList;
     }
-    public ArrayList<Integer> getEachCashIncome(){
-        Cursor data = connect.getData("Select cash from income");
-        ArrayList<Integer> arrayList = new ArrayList<>();
+    public ArrayList<Object> getEachCashIncome(int id){
+        Cursor data = connect.getData("Select category, cash from income where id_user = '"+id+"' group by category");
+        ArrayList<Object> arrayList = new ArrayList<>();
         while (data.moveToNext()){
-            int cash = data.getInt(0);
-            arrayList.add(cash);
+            String category = data.getString(0);
+            int cash = data.getInt(1);
+            arrayList.add(category);
+            arrayList.add((float)cash);
+            System.out.println("category income @@@@@: " + category);
             System.out.println("cash income @@@@@: " + cash);
         }
         return arrayList;

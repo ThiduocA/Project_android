@@ -68,10 +68,25 @@ public class TransactionHomeArrayAdapter extends ArrayAdapter<Transaction_lv> {
             viewHolder.cash.setTextColor(ContextCompat.getColor(context, R.color.red));
             viewHolder.cash.setText("- $" + String.valueOf(transaction.getCost()));
         }
-        if(transaction.getTitle().equals("Salary")){
-
+        else if(transaction.getTitle().equals("Food")){
+            viewHolder.cash.setTextColor(ContextCompat.getColor(context, R.color.red));
+            viewHolder.cash.setText("- $" + String.valueOf(transaction.getCost()));
+        }
+        else if(transaction.getTitle().equals("Subscription")){
             viewHolder.cash.setTextColor(ContextCompat.getColor(context, R.color.green));
-            viewHolder.cash.setText("+ " + String.valueOf(transaction.getCost()));
+            viewHolder.cash.setText("- $" + String.valueOf(transaction.getCost()));
+        }
+        else if(transaction.getTitle().equals("Transportation")){
+            viewHolder.cash.setTextColor(ContextCompat.getColor(context, R.color.green));
+            viewHolder.cash.setText("- $" + String.valueOf(transaction.getCost()));
+        }
+        else if(transaction.getTitle().equals("Salary")){
+            viewHolder.cash.setTextColor(ContextCompat.getColor(context, R.color.green));
+            viewHolder.cash.setText("+ $" + String.valueOf(transaction.getCost()));
+        }
+        else if(transaction.getTitle().equals("Passive Income")){
+            viewHolder.cash.setTextColor(ContextCompat.getColor(context, R.color.green));
+            viewHolder.cash.setText("+ $" + String.valueOf(transaction.getCost()));
         }
         viewHolder.description.setText(transaction.getDescription());
         viewHolder.time.setText(transaction.getTime());

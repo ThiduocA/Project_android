@@ -23,7 +23,7 @@
         android:id="@+id/navExpense"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:icon="@drawable/plus_nav"
+        android:icon="@drawable/minus_nav"
         android:title="Expense" />
     <item
         android:id="@+id/navProfile"

@@ -1,4 +1,4 @@
-package hwngne.tlu.montra;
+package hwngne.tlu.montra.Fragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
+import hwngne.tlu.montra.R;
 import hwngne.tlu.montra.databinding.FragmentFirstBinding;
 
 public class FirstFragment extends Fragment {

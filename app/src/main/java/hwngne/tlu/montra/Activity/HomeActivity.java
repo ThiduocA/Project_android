@@ -1,4 +1,4 @@
-package hwngne.tlu.montra;
+package hwngne.tlu.montra.Activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,6 +11,13 @@ import android.view.MenuItem;
 import android.widget.FrameLayout;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import hwngne.tlu.montra.Fragment.ExpenseFragment;
+import hwngne.tlu.montra.Fragment.HomeFragment;
+import hwngne.tlu.montra.Fragment.IncomeFragment;
+import hwngne.tlu.montra.Fragment.ProfileFragment;
+import hwngne.tlu.montra.Fragment.TransactionFragment;
+import hwngne.tlu.montra.R;
 
 public class HomeActivity extends AppCompatActivity {
 

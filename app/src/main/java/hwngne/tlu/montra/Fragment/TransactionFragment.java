@@ -1,6 +1,5 @@
-package hwngne.tlu.montra;
+package hwngne.tlu.montra.Fragment;
 
-import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 
@@ -15,16 +14,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
 import hwngne.tlu.montra.DAO.Connect;
+import hwngne.tlu.montra.R;
+import hwngne.tlu.montra.TransactionHomeArrayAdapter;
+import hwngne.tlu.montra.Transaction_lv;
 
 
 public class TransactionFragment extends Fragment {
 
     ArrayList<Transaction_lv> mylist;
     Connect connect;
+    int userId;
     public TransactionFragment(){
 
     }
@@ -38,15 +42,13 @@ public class TransactionFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        int img = R.drawable.cart;
-
-
+        userId = requireActivity().getIntent().getIntExtra("userId", -1);
         connect = new Connect(requireContext(), "montra.db", null, 1);
         ListView listView = view.findViewById(R.id.list_view_transaction);
         mylist = new ArrayList<>();
         TransactionHomeArrayAdapter adapter = new TransactionHomeArrayAdapter(requireActivity(), R.layout.layout_transaction_home, mylist);
         listView.setAdapter(adapter);
-        actionGetData();
+        actionGetData(userId);
 
         TextView btn_see = view.findViewById(R.id.btn_see);
         btn_see.setOnClickListener(new View.OnClickListener() {
@@ -57,12 +59,12 @@ public class TransactionFragment extends Fragment {
         });
     }
 
-    public void actionGetData(){
+    public void actionGetData(int id){
         Cursor data = connect.getData("SELECT category, description, cash, time " +
                 "FROM (" +
-                "    SELECT category, description, cash, time FROM income " +
+                "    SELECT category, description, cash, time FROM income where id_user = '"+id+"'" +
                 "    UNION ALL " +
-                "    SELECT category, description, cash, time FROM expense " +
+                "    SELECT category, description, cash, time FROM expense where id_user = '"+id+"'" +
                 ") AS combined " +
                 "ORDER BY time DESC;");
         mylist.clear();
@@ -73,7 +75,9 @@ public class TransactionFragment extends Fragment {
             String time = data.getString(3);
             mylist.add(new Transaction_lv(category, description, cash, time));
         }
-
+        if(mylist.isEmpty()){
+            Toast.makeText(requireContext(), "Bạn phải thêm dữ liệu!", Toast.LENGTH_LONG).show();
+        }
     }
     private void loadFragment(Fragment fragment, boolean isAppInitialized){
         FragmentManager fragmentManager = getFragmentManager();

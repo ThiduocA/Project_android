@@ -25,6 +25,11 @@ public class Transaction_lv {
         this.time = time;
     }
 
+    public Transaction_lv(String title, int cost) {
+        this.title = title;
+        this.cost = cost;
+    }
+
     public int getImage() {
         return image;
     }

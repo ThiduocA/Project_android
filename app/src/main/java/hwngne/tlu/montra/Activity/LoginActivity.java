@@ -1,0 +1,101 @@
+package hwngne.tlu.montra.Activity;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.text.SpannableString;
+import android.text.style.UnderlineSpan;
+import android.util.Patterns;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import java.util.regex.Pattern;
+
+import hwngne.tlu.montra.DAO.DatabaseHelper;
+import hwngne.tlu.montra.R;
+
+public class LoginActivity extends AppCompatActivity {
+
+    private EditText editTextEmail;
+    private EditText editTextPassword;
+
+    private EditText forgotPassword;
+    DatabaseHelper dbHelper;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        dbHelper = new DatabaseHelper(this);
+        editTextEmail = findViewById(R.id.editTextEmail);
+        editTextPassword = findViewById(R.id.editTextPassword);
+        Button buttonLogin = findViewById(R.id.buttonLogin);
+
+
+        // them gach chan cho chu SignUp
+        TextView tvsignup = findViewById(R.id.signupid);
+        SpannableString content = new SpannableString("Sign Up");
+        content.setSpan(new UnderlineSpan(), 0, content.length(), 0);
+        tvsignup.setText(content);
+
+        buttonLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String email = editTextEmail.getText().toString();
+                String password = editTextPassword.getText().toString();
+                Pattern pattern = Patterns.EMAIL_ADDRESS;
+                boolean isValidEmail = pattern.matcher(email).matches();
+                int userId = dbHelper.searchId(email, password);
+                if (email.isEmpty() || password.isEmpty()) {
+                    Toast.makeText(getApplicationContext(), "Dữ liệu không được để trống!", Toast.LENGTH_LONG).show();
+                } else if (!isValidEmail) {
+                    Toast.makeText(getApplicationContext(), "Email không đúng định dạng!", Toast.LENGTH_LONG).show();
+                } else {
+                    if (password.equals(dbHelper.searchPass(email))) {
+
+                        //Toast.makeText(getApplicationContext(), "Đăng nhập thành công!", Toast.LENGTH_LONG).show();
+                        Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+                        intent.putExtra("userId", userId);
+                        System.out.println("userId cua intent: " + userId);
+                        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putInt("userId", userId);
+                        editor.apply();
+                        System.out.println("userId cua editor: " + userId);
+                        startActivity(intent);
+                        finish();
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Mật khẩu không đúng, vui lòng nhập lại!", Toast.LENGTH_LONG).show();
+                    }
+                }
+            }
+        });
+        TextView signup = findViewById(R.id.signupid);
+        signup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(LoginActivity.this, signup.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+
+        TextView forgot = findViewById(R.id.forgotPassword);
+        forgot.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(LoginActivity.this, ForgotPassword.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+
+
+    }
+}

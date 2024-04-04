@@ -1,4 +1,4 @@
-package hwngne.tlu.montra;
+package hwngne.tlu.montra.Fragment;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -13,6 +13,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import hwngne.tlu.montra.DAO.DatabaseHelper;
+import hwngne.tlu.montra.Activity.LoginActivity;
+import hwngne.tlu.montra.R;
 
 
 public class ProfileFragment extends Fragment {
@@ -73,7 +75,7 @@ public class ProfileFragment extends Fragment {
     // Phương thức đăng xuất
     private void logout() {
         // Chuyển sang layout MainActivity
-        Intent intent = new Intent(getActivity(), MainActivity.class);
+        Intent intent = new Intent(getActivity(), LoginActivity.class);
         startActivity(intent);
     }
 }

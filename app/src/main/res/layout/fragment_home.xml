@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".HomeFragment">
+    tools:context=".Fragment.HomeFragment">
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -101,7 +101,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <ImageView
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/income_home"
                 android:layout_width="130dp"
                 android:layout_height="60dp"
@@ -112,92 +112,96 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
-            </ImageView>
-            <ImageView
-                android:id="@+id/income_home_img"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_marginTop="180dp"
-                android:background="@drawable/income_img"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.1"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="30dp"
-                android:layout_marginTop="175dp"
-                android:text="Income"
-                android:textColor="#FFF"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.1"
-                app:layout_constraintStart_toStartOf="@+id/income_home"
-                app:layout_constraintTop_toTopOf="parent"/>
-            <TextView
-                android:id="@+id/cash_income"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="30dp"
-                android:layout_marginTop="200dp"
-                android:text="$5000"
-                android:textColor="#FFF"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.1"
-                app:layout_constraintStart_toStartOf="@+id/income_home"
-                app:layout_constraintTop_toTopOf="parent"/>
+                <ImageView
+                    android:id="@+id/income_home_img"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/income_img"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.1"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/txtIncome"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="7dp"
+                    android:layout_marginStart="30dp"
+                    android:text="Income"
+                    android:textColor="#FFF"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/income_home"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/cash_income"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="40dp"
+                    android:layout_marginTop="0dp"
+                    android:text="$5000"
+                    android:textColor="#FFF"
+                    android:textSize="20dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/income_home"
+                    app:layout_constraintTop_toBottomOf="@+id/txtIncome"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-
-            <ImageView
-                android:id="@+id/abc"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/Expense_home"
                 android:layout_width="130dp"
                 android:layout_height="60dp"
                 android:layout_marginTop="170dp"
                 android:background="@drawable/expenses_home"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.9"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintHorizontal_bias="0.9">
 
-            </ImageView>
-            <ImageView
-                android:id="@+id/def"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_marginTop="180dp"
-                android:background="@drawable/expenses_img"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.74"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="175dp"
-                android:text="Expenses"
-                android:textColor="#FFF"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.88"
-                app:layout_constraintStart_toStartOf="@+id/income_home"
-                app:layout_constraintTop_toTopOf="parent"/>
-            <TextView
-                android:id="@+id/cash_expense"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="200dp"
-                android:text="$1200"
-                android:textColor="#FFF"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.824"
-                app:layout_constraintStart_toStartOf="@+id/income_home"
-                app:layout_constraintTop_toTopOf="parent"/>
+
+                <ImageView
+                    android:id="@+id/def"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/expenses_img"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.1"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/txtExpense"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="7dp"
+                    android:layout_marginStart="40dp"
+                    android:text="Expenses"
+                    android:textColor="#FFF"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/Expense_home"
+                    app:layout_constraintTop_toTopOf="parent"/>
+
+                <TextView
+                    android:id="@+id/cash_expense"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="37dp"
+                    android:layout_marginTop="0dp"
+                    android:text="$1200"
+                    android:textColor="#FFF"
+                    android:textSize="20dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/Expense_home"
+                    app:layout_constraintTop_toBottomOf="@+id/txtExpense"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -219,5 +223,7 @@
             app:layout_constraintStart_toStartOf="parent"
             />
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+
 
 </FrameLayout>

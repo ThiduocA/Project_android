@@ -4,7 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".signup">
+    tools:context=".Activity.signup">
+
+    <ImageView
+        android:id="@+id/btn_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="80dp"
+        app:layout_constraintEnd_toStartOf="@+id/textView2"
+        app:layout_constraintHorizontal_bias="0.072"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/arrow_left" />
 
     <TextView
         android:id="@+id/textView2"
@@ -27,6 +39,7 @@
         android:layout_marginTop="40dp"
         android:layout_marginEnd="40dp"
         android:hint="Name"
+        android:background="@drawable/edittext_bg"
         android:padding="16dp"
         app:boxCornerRadiusBottomEnd="20dp"
         app:hintEnabled="true"
@@ -43,6 +56,9 @@
         android:layout_marginStart="40dp"
         android:layout_marginEnd="40dp"
         android:hint="Email"
+        android:background="@drawable/edittext_bg"
+        android:autofillHints="emailAddress"
+        android:inputType="textEmailAddress"
         android:padding="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.478"
@@ -56,7 +72,9 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="30dp"
-        android:hint="password"
+        android:inputType="textPassword"
+        android:hint="Password"
+        android:background="@drawable/edittext_bg"
         android:padding="16dp"
         android:layout_marginStart="40dp"
         android:layout_marginEnd="40dp"
@@ -80,6 +98,7 @@
         android:layout_width="345dp"
         android:layout_height="56dp"
         android:layout_marginTop="30dp"
+        android:backgroundTint="@color/purple"
         android:text="Sign up"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -87,24 +106,24 @@
 
     <TextView
         android:id="@+id/textView3"
-        android:layout_width="171dp"
-        android:layout_height="21dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:text="Already have an account?"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.325"
+        app:layout_constraintHorizontal_bias="0.4"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button" />
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/tvLogin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:text="Login"
         android:textColor="#7F3DFF"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.686"
+        app:layout_constraintHorizontal_bias="0.67"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button" />
 
@@ -141,5 +160,7 @@
         app:layout_constraintHorizontal_bias="0.351"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView5" />
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

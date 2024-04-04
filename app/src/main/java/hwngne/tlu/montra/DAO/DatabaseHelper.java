@@ -1,20 +1,16 @@
 package hwngne.tlu.montra.DAO;
 
 import android.annotation.SuppressLint;
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import java.util.ArrayList;
 import java.util.Objects;
-
-import hwngne.tlu.montra.HomeFragment;
-import hwngne.tlu.montra.Transaction_lv;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "montra.db";
@@ -73,10 +69,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         this.db = db;
         db.execSQL("INSERT INTO user (name, email, password, balance) VALUES ('Xuan Hung', 'admin@gmail.com', '1', 650)");
-        db.execSQL("INSERT INTO income (category, description, cash, id_user) VALUES('Shop', 'Buy some grocery', 1000, 1)");
-        db.execSQL("INSERT INTO income (category, description, cash, id_user) VALUES('Shop', 'Buy some grocery 2', 50, 1)");
-        db.execSQL("INSERT INTO income (category, description, cash, id_user) VALUES('Shop', 'Buy some grocery 3', 100, 1)");
-        db.execSQL("INSERT INTO expense (category, description, cash, id_user) VALUES('Salary', 'Salary for July', 500, 1)");
+        db.execSQL("INSERT INTO expense (category, description, cash, id_user) VALUES('Shop', 'Buy some grocery', 1000, 1)");
+        db.execSQL("INSERT INTO expense (category, description, cash, id_user) VALUES('Shop', 'Buy some grocery 2', 50, 1)");
+        db.execSQL("INSERT INTO expense (category, description, cash, id_user) VALUES('Shop', 'Buy some grocery 3', 100, 1)");
+        db.execSQL("INSERT INTO income (category, description, cash, id_user) VALUES('Salary', 'Salary for July', 500, 1)");
     }
 
     @Override
@@ -152,7 +148,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         // Trả về tên nếu tìm thấy, null nếu không tìm thấy
         return name;
     }
-
+    public String searchEmail(String email){
+        db = this.getReadableDatabase();
+        String email1 = "";
+        String query = "select email from user where email = '"+email+"'";
+        Cursor cursor = db.rawQuery(query, null);
+        if(cursor.moveToFirst()){
+            email1 = cursor.getString(0);
+        }
+        cursor.close();
+        db.close();
+        return email1;
+    }
     public int showCashIncome(int id){
         int totalCash = 0;
         db = this.getReadableDatabase();
@@ -203,10 +210,62 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         else{
             System.out.println("Loi");
         }
-        cursor.close();
-        db.close();
         return totalCash;
     }
-
-
+    public void insertExpense(SQLiteDatabase db, String category, String description, int cash, int id_user){
+        String query = "insert into expense(category, description, cash, id_user) values('"+category+"', '"+description+"', '"+cash+"', '"+id_user+"')";
+        db.execSQL(query);
+        db.close();
+    }
+    public void insertIncome(String category, String description, int cash, int id_user){
+        db = dbWrite;
+        String query = "insert into income(category, description, cash, id_user) values('"+category+"', '"+description+"', '"+cash+"', '"+id_user+"')";
+        db.execSQL(query);
+        db.close();
+    }
+    public void insertUser(String name, String email, String password){
+        //String query = "insert into user(name, email, password, balance) values('"+name+"', '"+email+"', '"+password+"', 0)";
+        db = dbWrite;
+        ContentValues values = new ContentValues();
+        values.put("name", name);
+        values.put("email", email);
+        values.put("password", password);
+        values.put("balance", 0);
+        db.insert("user", null, values);
+        db.close();
+    }
+    public void updateBalance(int id){
+        db = dbWrite;
+        String query = "UPDATE user " +
+                "SET balance = " +
+                "CASE " +
+                "WHEN (SELECT COALESCE(SUM(cash), 0) FROM income WHERE id_user = '"+id+"') IS NULL THEN " +
+                "0 - (SELECT COALESCE(SUM(cash), 0) FROM expense WHERE id_user = '"+id+"') " +
+                "WHEN (SELECT COALESCE(SUM(cash), 0) FROM expense WHERE id_user = '"+id+"') IS NULL THEN " +
+                "(SELECT COALESCE(SUM(cash), 0) FROM income WHERE id_user = '"+id+"') " +
+                "ELSE " +
+                "(SELECT COALESCE(SUM(cash), 0) FROM income WHERE id_user = '"+id+"') - (SELECT COALESCE(SUM(cash), 0) FROM expense WHERE id_user = '"+id+"') " +
+                "END " +
+                "WHERE id = '"+id+"'";
+        db.execSQL(query);
+        db.close();
+    }
+    public int searchIdForReset(String email){
+        db = this.getReadableDatabase();
+        int id = 0;
+        String query = "select id from user where email = '"+email+"'";
+        Cursor cursor = db.rawQuery(query, null);
+        if(cursor.moveToFirst()){
+            id = cursor.getInt(0);
+        }
+        cursor.close();
+        db.close();
+        return id;
+    }
+    public void updatePassword(int id, String pass){
+        db = dbWrite;
+        String query = "update user set password = '"+pass+"' where id = '"+id+"'";
+        db.execSQL(query);
+        db.close();
+    }
 }

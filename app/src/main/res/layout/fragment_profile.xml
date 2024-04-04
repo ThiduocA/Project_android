@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center"
-    tools:context=".ProfileFragment">
+    tools:context=".Fragment.ProfileFragment">
 
     <!-- Avatar và Tên người dùng -->
     <LinearLayout

@@ -7,8 +7,6 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
 
-import hwngne.tlu.montra.HomeFragment;
-
 public class Connect extends SQLiteOpenHelper {
     public Connect(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);

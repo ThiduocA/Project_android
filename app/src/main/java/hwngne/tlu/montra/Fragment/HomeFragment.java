@@ -1,33 +1,28 @@
-package hwngne.tlu.montra;
+package hwngne.tlu.montra.Fragment;
 
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.database.Cursor;
-import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 import com.github.mikephil.charting.charts.PieChart;
-import com.github.mikephil.charting.data.PieData;
-import com.github.mikephil.charting.data.PieDataSet;
-import com.github.mikephil.charting.data.PieEntry;
 
 import hwngne.tlu.montra.DAO.Connect;
 import hwngne.tlu.montra.DAO.DatabaseHelper;
+import hwngne.tlu.montra.R;
+import hwngne.tlu.montra.TransactionHomeArrayAdapter;
+import hwngne.tlu.montra.Transaction_lv;
 
 public class HomeFragment extends Fragment {
 
@@ -86,18 +81,27 @@ public class HomeFragment extends Fragment {
         TextView cash_expense = view.findViewById(R.id.cash_expense);
         dbHelper = new DatabaseHelper(HomeFragment.this);
         cash_expense.setText(String.valueOf(dbHelper.showCashExpense(userId)));
+        dbHelper = new DatabaseHelper(HomeFragment.this);
+        dbHelper.updateBalance(userId);
         TextView balance = view.findViewById(R.id.balance);
+        dbHelper = new DatabaseHelper(HomeFragment.this);
+        int totalcash = dbHelper.showBalance(userId);
+        System.out.println("Tong tien trang home: " +totalcash);
+        if(totalcash < 0){
+            Toast.makeText(requireContext(), "Bạn đã vượt quá chi tiêu, vui lòng nạp thêm tiền!", Toast.LENGTH_LONG).show();
+            dbHelper = new DatabaseHelper(HomeFragment.this);
+            //dbHelper.updateBalance1(userId);
+        }
         balance.setText(String.valueOf(dbHelper.showBalance(userId)));
-        //adapter = new TransactionHomeArrayAdapter(requireContext(), mylist);
-        actionGetData();
+        actionGetData(userId);
     }
 
-    public void actionGetData(){
+    public void actionGetData(int id){
         Cursor data = connect.getData("SELECT category, description, cash, time " +
                 "FROM (" +
-                "    SELECT category, description, cash, time FROM income " +
+                "    SELECT category, description, cash, time FROM income where id_user = '"+id+"'" +
                 "    UNION ALL " +
-                "    SELECT category, description, cash, time FROM expense " +
+                "    SELECT category, description, cash, time FROM expense where id_user = '"+id+"'" +
                 ") AS combined " +
                 "ORDER BY time DESC;"
 );
@@ -109,6 +113,8 @@ public class HomeFragment extends Fragment {
             String time = data.getString(3);
             mylist.add(new Transaction_lv(category, description, cash, time));
         }
-
+        if(mylist.isEmpty()){
+            Toast.makeText(requireContext(), "Bạn phải thêm dữ liệu!", Toast.LENGTH_LONG).show();
+        }
     }
 }
