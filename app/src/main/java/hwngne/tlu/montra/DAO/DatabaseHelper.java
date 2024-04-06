@@ -68,11 +68,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(createTableExpenses);
 
         this.db = db;
-        db.execSQL("INSERT INTO user (name, email, password, balance) VALUES ('Xuan Hung', 'admin@gmail.com', '1', 650)");
-        db.execSQL("INSERT INTO expense (category, description, cash, id_user) VALUES('Shop', 'Buy some grocery', 1000, 1)");
-        db.execSQL("INSERT INTO expense (category, description, cash, id_user) VALUES('Shop', 'Buy some grocery 2', 50, 1)");
-        db.execSQL("INSERT INTO expense (category, description, cash, id_user) VALUES('Shop', 'Buy some grocery 3', 100, 1)");
-        db.execSQL("INSERT INTO income (category, description, cash, id_user) VALUES('Salary', 'Salary for July', 500, 1)");
+
     }
 
     @Override

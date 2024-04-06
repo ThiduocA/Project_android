@@ -12,6 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 import hwngne.tlu.montra.DAO.DatabaseHelper;
 import hwngne.tlu.montra.Activity.LoginActivity;
 import hwngne.tlu.montra.R;
@@ -59,7 +61,9 @@ public class ProfileFragment extends Fragment {
                 .setPositiveButton("Có", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         // Nếu người dùng chọn "Có", thực hiện đăng xuất
-                        logout();
+                        FirebaseAuth.getInstance().signOut();
+                        Intent intent = new Intent(getActivity(), LoginActivity.class);
+                        startActivity(intent);
                     }
                 })
                 .setNegativeButton("Không", new DialogInterface.OnClickListener() {
@@ -72,10 +76,6 @@ public class ProfileFragment extends Fragment {
         builder.create().show();
     }
 
-    // Phương thức đăng xuất
-    private void logout() {
-        // Chuyển sang layout MainActivity
-        Intent intent = new Intent(getActivity(), LoginActivity.class);
-        startActivity(intent);
-    }
+
+
 }

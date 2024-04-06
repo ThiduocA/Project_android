@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "325323539897",
+    "project_id": "montra-b8a30",
+    "storage_bucket": "montra-b8a30.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:325323539897:android:733d06fa19c9b2668b6268",
+        "android_client_info": {
+          "package_name": "hwngne.tlu.montra"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDyIcDlVHtytlCn85QuTuL2WIaM9_cB3yg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
