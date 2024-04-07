@@ -74,7 +74,7 @@ public class FinancialFragment extends Fragment {
                 connect = new Connect(requireContext(), "montra.db", null, 1);
                 TextView total = view.findViewById(R.id.total);
                 dbHelper = new DatabaseHelper(FinancialFragment.this);
-                total.setText(String.valueOf(dbHelper.showCashExpense(userId)));
+                total.setText(String.valueOf("$" + dbHelper.showCashExpense(userId)));
                 pieChart = view.findViewById(R.id.pie_chart);
                 listCash = getEachCashExpense(userId);
                 ArrayList<PieEntry> entries = new ArrayList<>();

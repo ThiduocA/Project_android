@@ -62,29 +62,34 @@ public class TransactionHomeArrayAdapter extends ArrayAdapter<Transaction_lv> {
             viewHolder = (ViewHolder) convertView.getTag();
         }
         Transaction_lv transaction = transactions.get(position);
-        viewHolder.img.setImageResource(R.drawable.cart);
         viewHolder.category.setText(transaction.getTitle());
         if(transaction.getTitle().equals("Shop")){
+            viewHolder.img.setImageResource(R.drawable.cart);
             viewHolder.cash.setTextColor(ContextCompat.getColor(context, R.color.red));
             viewHolder.cash.setText("- $" + String.valueOf(transaction.getCost()));
         }
         else if(transaction.getTitle().equals("Food")){
+            viewHolder.img.setImageResource(R.drawable.food);
             viewHolder.cash.setTextColor(ContextCompat.getColor(context, R.color.red));
             viewHolder.cash.setText("- $" + String.valueOf(transaction.getCost()));
         }
         else if(transaction.getTitle().equals("Subscription")){
+            viewHolder.img.setImageResource(R.drawable.subscription);
             viewHolder.cash.setTextColor(ContextCompat.getColor(context, R.color.green));
             viewHolder.cash.setText("- $" + String.valueOf(transaction.getCost()));
         }
         else if(transaction.getTitle().equals("Transportation")){
+            viewHolder.img.setImageResource(R.drawable.transportation);
             viewHolder.cash.setTextColor(ContextCompat.getColor(context, R.color.green));
             viewHolder.cash.setText("- $" + String.valueOf(transaction.getCost()));
         }
         else if(transaction.getTitle().equals("Salary")){
+            viewHolder.img.setImageResource(R.drawable.salary);
             viewHolder.cash.setTextColor(ContextCompat.getColor(context, R.color.green));
             viewHolder.cash.setText("+ $" + String.valueOf(transaction.getCost()));
         }
         else if(transaction.getTitle().equals("Passive Income")){
+            viewHolder.img.setImageResource(R.drawable.passive_income);
             viewHolder.cash.setTextColor(ContextCompat.getColor(context, R.color.green));
             viewHolder.cash.setText("+ $" + String.valueOf(transaction.getCost()));
         }

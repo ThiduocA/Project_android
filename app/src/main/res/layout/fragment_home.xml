@@ -43,6 +43,7 @@
                 android:layout_marginTop="28dp"
                 android:background="@drawable/border_white"
                 android:text="Month"
+                android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
@@ -75,7 +76,7 @@
                 android:gravity="center"
                 android:text="Account Balance"
                 android:textColor="#91919F"
-                android:textSize="11sp"
+                android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
