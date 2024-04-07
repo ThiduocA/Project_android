@@ -96,7 +96,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 }
             }while (cursor.moveToNext());
         }
-        db.close();
         return password;
     }
     public int searchId(String tk,String pass){
@@ -116,32 +115,20 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
 
         cursor.close();
-        db.close();
 
         return userId;
     }
     @SuppressLint("Range")
     public String searchName(int id) {
-        SQLiteDatabase db = this.getReadableDatabase();
+        db = this.getReadableDatabase();
         String name = null;
-
-        // Tạo câu truy vấn để lấy tên dựa trên id
         String query = "SELECT name FROM user WHERE id = ?";
-
-        // Thực thi câu truy vấn với tham số là id
         Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(id)});
-
-        // Kiểm tra xem có dữ liệu nào được trả về không
         if (cursor.moveToFirst()) {
-            // Lấy tên từ cột name
             name = cursor.getString(cursor.getColumnIndex("name"));
         }
-
-        // Đóng cursor và database
         cursor.close();
         db.close();
-
-        // Trả về tên nếu tìm thấy, null nếu không tìm thấy
         return name;
     }
     public String searchEmail(String email){
@@ -206,6 +193,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         else{
             System.out.println("Loi");
         }
+        cursor.close();
+        db.close();
         return totalCash;
     }
     public void insertExpense(SQLiteDatabase db, String category, String description, int cash, int id_user){
@@ -261,6 +250,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void updatePassword(int id, String pass){
         db = dbWrite;
         String query = "update user set password = '"+pass+"' where id = '"+id+"'";
+        db.execSQL(query);
+        db.close();
+    }
+    public void updatePasswordwithEmail(String email, String pass){
+        db = dbWrite;
+        String query = "update user set password = '"+pass+"' where email = '"+email+"'";
         db.execSQL(query);
         db.close();
     }

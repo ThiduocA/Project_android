@@ -103,7 +103,7 @@ public class signup extends AppCompatActivity {
                                                 startActivity(intent);
                                                 finish();
                                             } else {
-                                                Toast.makeText(signup.this, "Authentication failed.",
+                                                Toast.makeText(signup.this, "Tài khoản đã tồn tại.",
                                                         Toast.LENGTH_SHORT).show();
                                             }
                                         }

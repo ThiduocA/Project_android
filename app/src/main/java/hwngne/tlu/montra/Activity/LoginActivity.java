@@ -32,6 +32,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText editTextEmail;
     private EditText editTextPassword;
     private FirebaseAuth mAuth;
+    private FirebaseUser user;
 
     private EditText forgotPassword;
     DatabaseHelper dbHelper;
@@ -72,6 +73,9 @@ public class LoginActivity extends AppCompatActivity {
                                 @Override
                                 public void onComplete(@NonNull Task<AuthResult> task) {
                                     if (task.isSuccessful()) {
+                                        user = mAuth.getCurrentUser();
+                                        dbHelper.updatePasswordwithEmail(email,password);
+                                        int userId = dbHelper.searchId(email, password);
                                         Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
                                         intent.putExtra("userId", userId);
                                         System.out.println("userId cua intent: " + userId);
